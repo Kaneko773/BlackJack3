@@ -2,8 +2,10 @@
 
 #include "Status.h"
 
-class Participant :
-	public Status {
+class Participant {
 public:
 	void ScoreCalculation();
+
+public:
+	Status _status;
 };

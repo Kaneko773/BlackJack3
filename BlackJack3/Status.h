@@ -4,8 +4,7 @@
 #include "Number.h"
 #include "Card.h"
 
-class Status :
-    public Card {
+class Status {
 public:
     Status();
     Status(const Status& other);

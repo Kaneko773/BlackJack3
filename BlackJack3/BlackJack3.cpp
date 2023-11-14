@@ -17,7 +17,7 @@ const int MARK = 4;
 const int NUMBER = 13;
 
 Card MakeRandomCard();
-void CardShow(Status& other, int Index);//カード情報表示
+void CardShow(const Status& other, const int Index);//カード情報表示
 void GeneralInformationShow(Player& player, Dealer& dealer);//全体情報表示
 
 int main()
@@ -32,14 +32,14 @@ int main()
 
     //プレイヤーの処理
     do {
-        player.set_outwardlyNum();//表向きの枚数＋１
+        player._status.set_outwardlyNum();//表向きの枚数＋１
         GeneralInformationShow(player, dealer);
         //得点をリセット
         //player.set_score(reset);
         //player.ScoreCalculation();
 
 
-        if (player.get_score() > 21) {
+        if (player._status.get_score() > 21) {
             cout << "バーストしました" << endl << endl;
             Pburst = true;
             input = 1;
@@ -53,21 +53,21 @@ int main()
     //ディーラーの処理
     if (!Pburst) {
         do {
-            dealer.set_outwardlyNum();//表向きの枚数＋１
+            dealer._status.set_outwardlyNum();//表向きの枚数＋１
             GeneralInformationShow(player, dealer);
             //得点をリセット
             //dealer.set_score(reset);
             //dealer.ScoreCalculation();
-        } while (dealer.get_score() < 17);
+        } while (dealer._status.get_score() < 17);
         //ディーラーのバースト判定
-        if (dealer.get_score() > 21)Dburst = true;
+        if (dealer._status.get_score() > 21)Dburst = true;
     }
 
     //結果表示
-    if ((!Pburst && !Dburst && player.get_score() > dealer.get_score()) || Dburst) {
+    if ((!Pburst && !Dburst && player._status.get_score() > dealer._status.get_score()) || Dburst) {
         cout << "プレイヤーの勝ちです" << endl;
     }
-    else if (player.get_score() == dealer.get_score()) {
+    else if (player._status.get_score() == dealer._status.get_score()) {
         cout << "引き分けです" << endl;
     }
     else {
@@ -97,7 +97,7 @@ Card MakeRandomCard()
     return random;
 }
 
-void CardShow(Status& other, int Index)
+void CardShow(const Status& other, const int Index)
 {
 
     switch (other.get_pcard(Index).get_mark()) {
@@ -130,23 +130,23 @@ void GeneralInformationShow(Player& player, Dealer& dealer)
     system("cls");
 
     //得点をリセット
-    player.set_score(reset);
-    dealer.set_score(reset);
+    player._status.set_score(reset);
+    dealer._status.set_score(reset);
 
     cout << "自分の手札" << endl;
-    for (int i = 0; i < player.get_outwardlyNum(); ++i) {
-        CardShow(player, i);
+    for (int i = 0; i < player._status.get_outwardlyNum(); ++i) {
+        CardShow(player._status, i);
     }
     player.ScoreCalculation();
-    cout << "点数 : " << player.get_score() << endl << endl;
+    cout << "点数 : " << player._status.get_score() << endl << endl;
 
 
     cout << "ディーラーの手札" << endl;
-    for (int i = 0; i < dealer.get_outwardlyNum(); ++i) {
-        CardShow(dealer, i);
+    for (int i = 0; i < dealer._status.get_outwardlyNum(); ++i) {
+        CardShow(dealer._status, i);
     }
     dealer.ScoreCalculation();
-    cout << "点数 : " << dealer.get_score() << endl << endl;
+    cout << "点数 : " << dealer._status.get_score() << endl << endl;
 }
 
 // プログラムの実行: Ctrl + F5 または [デバッグ] > [デバッグなしで開始] メニュー
